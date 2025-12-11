@@ -1,0 +1,10 @@
+<div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg" [class.hidden]="!isModalOpen()">
+    <div class="relative rounded-lg shadow-lg overflow-hidden">
+        <div class="min-h-[200px] w-[400px]">
+            <ng-content></ng-content>
+        </div>
+        <div class="text-center absolute top-1 right-1">
+            <button class="bg-white font-bold w-[30px] h-[24px] rounded-full border-2 flex justify-center items-center" (click)="closeModalEvent()">X</button>
+        </div>
+    </div>
+</div>

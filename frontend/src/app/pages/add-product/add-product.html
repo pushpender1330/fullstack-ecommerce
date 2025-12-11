@@ -1,0 +1,67 @@
+<div class="max-w-lg mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+  
+  <h3 class="text-2xl font-bold mb-5 text-gray-800">Add Product</h3>
+
+  <form class="space-y-4" [formGroup]="productForm" (ngSubmit)="addProduct()">
+
+    <div>
+      <input 
+        type="text" 
+        placeholder="Product Name"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+        formControlName="productName"
+      >
+      @if(productForm.get('productName')?.invalid && productForm.get('productName')?.touched){
+        <p class="text-red-500 text-sm capitalize">product name is required</p>
+      }
+    </div>
+
+    <div>
+      <input 
+        type="number" 
+        placeholder="Price"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+        formControlName="price"
+      >
+      
+      @if(productForm.get('price')?.hasError('min') && productForm.get('price')?.touched){
+        <p class="text-red-500 text-sm capitalize">product price is atleast 1</p>
+      }
+      @else if(productForm.get('price')?.invalid && productForm.get('price')?.touched){
+        <p class="text-red-500 text-sm capitalize">product price is invalid</p>
+      }
+    </div>
+
+    <div>
+      <input 
+        type="text" 
+        placeholder="Image URL"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+        formControlName="imageUrl"
+      >
+      @if(productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched){
+        <p class="text-red-500 text-sm capitalize">imageUrl is required</p>
+      }
+      
+    </div>
+
+    <div>
+      <textarea 
+        placeholder="Product Description"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none h-28 resize-none"
+        formControlName="desc"
+      ></textarea>
+      @if(productForm.get('desc')?.invalid && productForm.get('desc')?.touched){
+        <p class="text-red-500 text-sm capitalize">Description is required</p>
+      }
+    </div>
+
+    <button 
+      type="submit"
+      class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+    >
+      Add Product
+    </button>
+
+  </form>
+</div>

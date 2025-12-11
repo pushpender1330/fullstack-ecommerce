@@ -1,0 +1,106 @@
+<div class="signup-page flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
+    
+    <h1 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+      Signup
+    </h1>
+
+    <form class="space-y-4" [formGroup]="signupForm" (ngSubmit)="signup()">
+
+      <div>
+        <input 
+          type="text" 
+          placeholder="Enter your name"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        formControlName="name"
+        >
+        @if(signupForm.get('name')?.invalid && signupForm.get('name')?.touched){
+              <p class="text-red-500 text-sm capitalize">name is required</p>
+            }
+      </div>
+
+      <div>
+        <input 
+          type="text" 
+          placeholder="Enter full address"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        formControlName="address"
+        
+        >
+        @if(signupForm.get('address')?.invalid && signupForm.get('address')?.touched){
+              <p class="text-red-500 text-sm capitalize">enter valid address</p>
+            }
+      </div>
+
+      <div>
+        <input 
+          type="email" 
+          placeholder="Enter email"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        formControlName="email"
+            
+        >
+        @if(signupForm.get('email')?.invalid && signupForm.get('email')?.touched){
+              <p class="text-red-500 text-sm capitalize">email is required</p>
+            }
+      </div>
+
+      <div>
+        <input 
+          type="tel" 
+          placeholder="Enter your phone number"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        formControlName="phoneNumber"
+        
+        >
+        @if(signupForm.get('phoneNumber')?.invalid && signupForm.get('phoneNumber')?.touched){
+              <p class="text-red-500 text-sm capitalize">enter valid phone Number</p>
+            }
+      </div>
+
+      <div>
+        <input 
+          type="password" 
+          placeholder="Set password"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        formControlName="password"
+            
+        >
+        @if(signupForm.get('password')?.invalid && signupForm.get('password')?.touched){
+              <p class="text-red-500 text-sm capitalize">password must be 8 character long</p>
+            }
+      </div>
+
+      <div>
+        <input 
+          type="password" 
+          placeholder="Confirm password"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        formControlName="confirmPassword"
+        >
+        @if(signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched){
+              <p class="text-red-500 text-sm capitalize">confirm Password is required</p>
+            }
+      </div>
+
+      <div>
+        <input 
+          type="submit" 
+          value="Signup"
+          class="w-full bg-blue-600 text-white py-2 rounded-md cursor-pointer
+                 hover:bg-blue-700 transition-all"
+        >
+      </div>
+
+    </form>
+    <div class="text-center mt-2">
+        <a routerLink="/login" class="underline text-blue-500">Login</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+
+    <!-- Product Image -->
+    <img [src]="productDetail().image"
+         class="w-24 h-24 rounded-lg object-cover">
+
+    <!-- Product Info -->
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold">{{productDetail().productName}}</h3>
+      <p class="text-sm text-gray-600">{{productDetail().description}}</p>
+
+      <p class="mt-2 font-semibold text-blue-600">$ {{productDetail().price}}</p>
+    </div>
+
+    <!-- Quantity Controller -->
+    <div class="flex items-center gap-2">
+      <button class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300" (click)="decQuantityEvent()">
+        -
+      </button>
+
+      <span class="w-10 text-center font-medium">{{quantity()}}</span>
+
+      <button class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300" (click)="incQuantityEvent()">
+        +
+      </button>
+    </div>
+
+    <!-- Remove Button -->
+    <button class="ml-4 text-red-500 hover:text-red-700 font-medium" (click)="removeProduct()" (click)="removeProduct()">
+      Remove
+    </button>
+  </div>

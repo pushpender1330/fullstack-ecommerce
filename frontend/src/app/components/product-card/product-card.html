@@ -1,0 +1,37 @@
+  <div class="item bg-white rounded-xl shadow hover:shadow-lg transition p-4">
+    <img [src]="productDetail().image" alt="" class="w-full h-40 object-cover rounded-lg">
+    <h4 class="mt-3 text-lg font-semibold">{{productDetail().productName}}</h4>
+    <p class="text-sm text-gray-600 mt-1">
+      {{productDetail().description}}
+    </p>
+    <p class="font-bold text-xl mt-2 text-blue-600">
+        $ {{productDetail().price}}
+    </p>
+    @if(!productDetail().inCart){
+        <button class="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition" (click)="addToCartClicked(productDetail().id)">
+          Add to Cart
+        </button>
+    }
+    @else {
+        <div class="flex items-center justify-between mt-4 bg-gray-100 rounded-lg p-2">
+            <button
+                class="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-lg text-lg font-bold hover:bg-gray-400 transition"
+                (click)="decProductQuantity(productDetail().id)"    
+            >
+                -
+            </button>
+    
+            <span class="text-lg font-semibold text-gray-800">
+                {{ productDetail().quantity || 0 }}
+            </span>
+    
+            <button
+                class="w-8 h-8 flex items-center justify-center bg-blue-600 text-white rounded-lg text-lg font-bold hover:bg-blue-700 transition"
+                (click)="incProductQuantity(productDetail().id)"    
+            >
+                +
+            </button>
+        </div>
+    }
+
+  </div>

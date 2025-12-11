@@ -1,0 +1,107 @@
+<div class="max-w-4xl mx-auto p-5 space-y-5">
+  <h2 class="text-2xl font-bold mb-3">Your Cart</h2>
+  @if(cartProducts().length === 0){
+  <div class="text-center">
+    <p class="text-lg text-center italic font-medium my-4">your cart is empty</p>
+    <a routerLink="/" class="mx-auto text-center bg-blue-500 text-white p-2 rounded-lg"
+      >Go to Home</a
+    >
+  </div>
+  } @else {
+  <div class="flex flex-col gap-3">
+    @for (product of cartProducts(); track product.id) {
+    <app-cart-item
+      [productDetail]="product.product"
+      (decQuantity)="decQuantity($event)"
+      (incQuantity)="incQuantity($event)"
+      (removeProductFromCart)="removeProductFromCart($event)"
+      [quantity]="product.quantity"
+      [cartId]="product.id"
+    />
+    }
+  </div>
+
+  <div class="bg-white p-5 rounded-xl shadow mt-6">
+    <div class="flex justify-between text-lg font-semibold">
+      <span>Total:</span>
+      <span>$ {{ total() }}</span>
+    </div>
+
+    <button
+      class="mt-4 w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
+      (click)="openModal()"
+    >
+      Proceed to Checkout
+    </button>
+  </div>
+  }
+  <app-modal [isModalOpen]="isModalOpen()" (closeModal)="closeModal()">
+    <div class="p-6 bg-white w-full max-w-md mx-auto">
+      @if(orderPlaced()){
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Order Placed Successfully</h1>
+
+        <div class="text-center">
+          <p>Name : {{this.userDetailForm.get('name')?.value}}</p>
+          <p>Address : {{this.userDetailForm.get('address')?.value}}</p>
+          <p>Contact : {{this.userDetailForm.get('contactNumber')?.value}}</p>
+        </div>
+
+      }
+      @else {
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4 text-center">User Details</h1>
+  
+        <form class="space-y-4" [formGroup]="userDetailForm" (ngSubmit)="placeOrder()">
+          <div>
+            <input
+              type="text"
+              placeholder="Enter name"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              formControlName="name"
+            />
+            @if(userDetailForm.get('name')?.invalid && userDetailForm.get('name')?.touched){
+              <p class="text-red-500 text-sm capitalize">name is required</p>
+            }
+          </div>
+  
+          <div>
+            <input
+              type="text"
+              placeholder="Enter address"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              formControlName="address"
+            />
+            @if(userDetailForm.get('address')?.hasError('minlength') && userDetailForm.get('address')?.touched){
+              <p class="text-red-500 text-sm capitalize">enter full address</p>
+            }
+            @else if(userDetailForm.get('address')?.invalid && userDetailForm.get('address')?.touched){
+              <p class="text-red-500 text-sm capitalize">enter valid address</p>
+            }
+          </div>
+  
+          <div>
+            <input
+              type="tel"
+              placeholder="Enter contact number"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              formControlName="contactNumber"
+            />
+            @if(userDetailForm.get('contactNumber')?.hasError('required') && userDetailForm.get('contactNumber')?.touched){
+              <p class="text-red-500 text-sm capitalize">contact Number is required</p>
+            }
+            @else if(userDetailForm.get('contactNumber')?.invalid && userDetailForm.get('contactNumber')?.touched){
+              <p class="text-red-500 text-sm capitalize">enter valid contact Number</p>
+            }
+          </div>
+  
+          <div>
+            <input
+              type="submit"
+              value="Place Order"
+              class="w-full bg-blue-600 text-white py-2 rounded-md cursor-pointer hover:bg-blue-700 transition"
+            />
+          </div>
+        </form>
+      }
+    </div>
+  </app-modal>
+</div>
