@@ -9,19 +9,25 @@ import { Order } from './typeorm/entities/Order';
 import { OrderItem } from './typeorm/entities/OrderItem';
 import { ProductsModule } from './modules/products/products.module';
 import { CartModule } from './modules/cart/cart.module';
-import { configurations } from './config/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule,ProductsModule,CartModule,TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: configurations.DB_USERNAME,
-      password: configurations.DB_PASSWORD,
-      database: 'ecommerce',
-      entities: [User,Cart,CartItem,Product,Order,OrderItem],
-      synchronize: true,
-    })],
+  imports: [AuthModule,ProductsModule,CartModule,ConfigModule.forRoot({
+    isGlobal: true
+  }),TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  useFactory: (config: ConfigService) => ({
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: config.get<string>('DB_USERNAME'),
+    password: config.get<string>('DB_PASSWORD'),
+    database: 'ecommerce',
+    entities: [User, Cart, CartItem, Product, Order, OrderItem],
+    synchronize: true,
+  }),
+  inject: [ConfigService],
+})],
   controllers: [],
   providers: [],
 })
