@@ -8,15 +8,12 @@ export class OrderItem {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(()=>Order,order=>order.orderItem)
+    @ManyToOne(()=>Order,order=>order.orderItem,{onDelete:'CASCADE'})
     order: Order;
 
-    @ManyToOne(()=>User)
-    user: User;
+    @ManyToOne(()=>Product,product=> product.orderItems,{onDelete:'CASCADE'})
+    product: Product;
 
     @Column()
     quantity : number;
-
-    @OneToOne(()=>Product)
-    product: Product;
 }

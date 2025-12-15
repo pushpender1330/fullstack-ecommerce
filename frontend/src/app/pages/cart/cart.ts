@@ -7,24 +7,20 @@ import { ModalService } from '../../service/modal-service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Cart as CartService } from '../../service/cart';
 import { cartItemType, productType } from '../../models/product';
+import { Orders as OrderService } from '../../service/orders';
 
 @Component({
   selector: 'app-cart',
-  imports: [CartItem, RouterLink,Modal,FormsModule,ReactiveFormsModule],
+  imports: [CartItem, RouterLink,Modal],
+  providers:[ModalService],
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
 })
 export class Cart implements OnDestroy {
-  constructor(private productService: Products, private cartService: CartService){}
-  modalService = inject(ModalService)
+  constructor(private productService: Products, private cartService: CartService,private orderService: OrderService){}
+  modalService = new ModalService()
 
-  userDetailForm = new FormGroup({
-    name: new FormControl<string>('',{validators:[Validators.required],nonNullable:true}),
-    address: new FormControl<string>('',{validators:[Validators.required, Validators.minLength(8)],nonNullable: true}),
-    contactNumber: new FormControl<string>('',{nonNullable:true,validators:[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('\[0-9]+')]})
-  })
 
-  orderPlaced = signal(false);
   cartProducts = signal<cartItemType[]>([])
   total = signal<number>(0);
   cartId = signal<string | null>(null);
@@ -32,18 +28,16 @@ export class Cart implements OnDestroy {
   
 
   placeOrder(){
-    if(this.userDetailForm.invalid){
-      this.userDetailForm.markAllAsTouched();
-      return;
-    }
-    const currentValues = this.userDetailForm.getRawValue();
-    this.orderPlaced.set(true);
-    this.cartService.clearCart();
-  }
+    this.orderService.placeOrder().subscribe({
+      next: data => {
+        // this.orderPlaced.set(true);
+        this.modalService.openModal();
+        this.getCartProducts()
+      },
+      error: err => {
 
-  resetForm(){
-    this.orderPlaced.set(false);
-    this.userDetailForm.reset();
+      }
+    })
   }
 
   getCartProducts(){
@@ -88,14 +82,14 @@ export class Cart implements OnDestroy {
     return this.modalService.modalOpen();
   }
   closeModal(){
-    this.resetForm();
     this.modalService.closeModal();
   }
   openModal(){
     this.modalService.openModal();
   }
 
+
   ngOnDestroy(){
-    this.modalService.closeModal();
+    // this.modalService.closeModal();
   }
 }

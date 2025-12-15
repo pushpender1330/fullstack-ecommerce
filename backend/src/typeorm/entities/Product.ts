@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 import { ManyToOne } from "typeorm/browser";
 import { User } from "./User";
 import { CartItem } from "./CartItem";
+import { OrderItem } from "./OrderItem";
 
 @Entity()
 export class Product {
@@ -22,6 +23,9 @@ export class Product {
     
     @OneToMany(() => CartItem, (cartItem) => cartItem.product)
     cartItems: CartItem[];
+
+    @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+    orderItems: OrderItem[];
 
     @CreateDateColumn()
     createdAt: Date;

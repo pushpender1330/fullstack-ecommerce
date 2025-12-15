@@ -10,9 +10,10 @@ import { OrderItem } from './typeorm/entities/OrderItem';
 import { ProductsModule } from './modules/products/products.module';
 import { CartModule } from './modules/cart/cart.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { OrderModule } from './modules/orders/order.module';
 
 @Module({
-  imports: [AuthModule,ProductsModule,CartModule,ConfigModule.forRoot({
+  imports: [AuthModule,ProductsModule,CartModule,OrderModule,ConfigModule.forRoot({
     isGlobal: true
   }),TypeOrmModule.forRootAsync({
   imports: [ConfigModule],

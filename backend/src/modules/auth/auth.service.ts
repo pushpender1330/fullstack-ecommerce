@@ -79,4 +79,13 @@ export class AuthServices{
             throw new InternalServerErrorException();
         }
     }
+
+    async getAllUser(){
+        try{
+
+        }
+        catch(err){
+            
+        }
+    }
 }

@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Product } from "./Product";
 import { Cart } from "./Cart";
+import { Order } from "./Order";
 
 @Entity()
 export class User {
@@ -24,6 +25,9 @@ export class User {
 
     @OneToOne(()=>Cart,cart => cart.user)
     cart: Cart;
+
+    @OneToMany(()=>Order,order=>order.user)
+    orders: Order[];
 
     @Column({default: 'USER'})
     role: 'USER' | 'ADMIN';

@@ -29,3 +29,17 @@ export interface cartType {
       total: number,
       cartItems: cartItemType[]
     }
+
+export interface orderItemType{
+    id: string;
+    product: productType;
+    quantity: number;
+}
+
+export interface orderType {
+    order: {
+        id: string;
+        orderItem : orderItemType[];
+        total: number;
+    }[]
+}

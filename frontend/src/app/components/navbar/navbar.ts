@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Route, Router, RouterLink } from "@angular/router";
 import { Auth } from '../../service/auth';
 
 @Component({
@@ -10,6 +10,7 @@ import { Auth } from '../../service/auth';
 })
 export class Navbar {
   private authService = inject(Auth);
+  constructor(private router: Router){}
 
   isLogedIn(){
     return localStorage.getItem('token') ? true : false;
@@ -21,6 +22,7 @@ export class Navbar {
 
   logoutUser(){
     this.authService.logout();
+    this.router.navigate(['/'])
     return;
   }
 }

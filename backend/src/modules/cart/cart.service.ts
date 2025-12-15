@@ -48,6 +48,20 @@ export class CartServices {
         return this.cartItemRepo.save(cartItem);
     }
 
+    async clearCart({cartId}){
+        try{
+
+            await this.cartItemRepo.delete({ 
+                cart:{
+                    id: cartId
+                }
+             });
+        }
+        catch(err){
+            throw err;
+        }
+    }
+
     async createNewCartItem({
         cart,
         product
