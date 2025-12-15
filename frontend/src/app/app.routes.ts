@@ -6,6 +6,7 @@ import { AddProduct } from './pages/add-product/add-product';
 import { Signup } from './pages/signup/signup';
 import { authGuard } from './guards/auth-guard';
 import { Orders } from './pages/orders/orders';
+import { Users } from './pages/users/users';
 
 export const routes: Routes = [
     {
@@ -16,6 +17,11 @@ export const routes: Routes = [
     {
         path: "login",
         component: Login
+    },
+    {
+        path: "users",
+        component: Users,
+        canActivate: [authGuard]
     },
     {
         path: "cart",

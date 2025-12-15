@@ -3,6 +3,7 @@ import { ProductCard } from "../../components/product-card/product-card";
 import { productType } from '../../models/product';
 import { Products } from '../../service/products';
 import { Cart } from '../../service/cart';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { Cart } from '../../service/cart';
 })
 export class Home {
   
-  constructor(private productService: Products, private cartService: Cart){
+  constructor(private productService: Products, private cartService: Cart,private toastr: ToastrService){
   }
 
   ngOnInit(){
@@ -25,6 +26,9 @@ export class Home {
     this.productService.getAllProducts().subscribe({
       next: (data) => {
         this.products.set(data?.products);
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     })
   }
@@ -33,7 +37,9 @@ export class Home {
     this.cartService.addToCart(id).subscribe({
       next: (data) => {
         this.getProducts();
-
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     });
   }
@@ -42,6 +48,9 @@ export class Home {
     this.cartService.incQuantity(id).subscribe({
       next: () => {
         this.getProducts();
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     });
   }
@@ -50,6 +59,9 @@ export class Home {
     this.cartService.decQuantity(id).subscribe({
       next: () => {
         this.getProducts();
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     });
   }

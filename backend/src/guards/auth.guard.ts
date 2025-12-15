@@ -8,10 +8,13 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { AuthServices } from 'src/modules/auth/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService,private config: ConfigService) {}
+  constructor(private jwtService: JwtService,private config: ConfigService,
+    private userService: AuthServices
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -27,6 +30,13 @@ export class AuthGuard implements CanActivate {
         }
       );
       request['user'] = payload;
+
+      const user = await this.userService.getUserById(payload?.userId);
+      console.log({user,payload})
+
+      if (!user || payload.role !== user.role) {
+        throw new UnauthorizedException('Token expired');
+      }
     } catch {
       throw new UnauthorizedException();
     }

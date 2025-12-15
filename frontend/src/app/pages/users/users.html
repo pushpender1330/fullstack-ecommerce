@@ -1,0 +1,107 @@
+@if (usersList()?.users?.length) {
+
+  <div class="overflow-x-auto my-5 overflow-x-scroll">
+    <h2 class="text-2xl font-bold mb-2">Users</h2>
+
+    <table class="min-w-full border border-gray-200 rounded-lg shadow-sm">
+
+      <!-- Table Head -->
+      <thead class="bg-gray-100 text-gray-700 text-sm">
+        <tr>
+          <th class="px-4 py-3 text-left">Name</th>
+          <th class="px-4 py-3 text-left">Email</th>
+          <th class="px-4 py-3 text-left">Phone</th>
+          <th class="px-4 py-3 text-left">Address</th>
+          <th class="px-4 py-3 text-left">Role</th>
+          <th class="px-4 py-3 text-left">Created</th>
+          <th class="px-4 py-3 text-left">Updated</th>
+          <th class="px-4 py-3 text-left">Action</th>
+        </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody class="divide-y">
+
+        @for (user of usersList()!.users; track user.id) {
+
+          <tr class="hover:bg-gray-50 text-sm">
+
+            <td class="px-4 py-3 font-medium text-gray-800">
+              {{ user.name }}
+            </td>
+
+            <td class="px-4 py-3 text-gray-600">
+              {{ user.email }}
+            </td>
+
+            <td class="px-4 py-3">
+              {{ user.phoneNumber }}
+            </td>
+
+            <td class="px-4 py-3">
+              {{ user.address }}
+            </td>
+
+            <td class="px-4 py-3">
+              <span
+                class="px-2 py-1 rounded-full text-xs font-semibold"
+              >
+                {{ user.role }}
+              </span>
+            </td>
+
+            <td class="px-4 py-3 text-gray-500">
+              {{ user.createdAt }}
+            </td>
+
+            <td class="px-4 py-3 text-gray-500">
+              {{ user.updatedAt }}
+            </td>
+
+            <td class="px-4 py-3">
+
+            @if (user.role === 'USER') {
+                <button
+                class="px-4 py-2 text-sm font-medium rounded-lg
+                        bg-blue-600 text-white
+                        hover:bg-blue-700
+                        active:bg-blue-800
+                        transition duration-200"
+                (click)="changeUserRole(user.id)"
+                >
+                Promote to Admin
+                </button>
+            } @else {
+                <button
+                class="px-4 py-2 text-sm font-medium rounded-lg
+                        bg-red-600 text-white
+                        hover:bg-red-700
+                        active:bg-red-800
+                        transition duration-200"
+                (click)="changeUserRole(user.id)"
+                
+                >
+                Revoke Admin Access
+                </button>
+            }
+
+            </td>
+
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+} @else {
+
+  <div class="text-center text-gray-500 py-10">
+    No users found
+  </div>
+
+}

@@ -5,9 +5,10 @@ import { Cart } from "src/typeorm/entities/Cart";
 import { CartController } from "./cart.controller";
 import { CartItem } from "src/typeorm/entities/CartItem";
 import { ProductsModule } from "../products/products.module";
+import { AuthModule } from "../auth/auth.module";
 
 @Module({
-    imports:[TypeOrmModule.forFeature([Cart,CartItem]),forwardRef(()=>ProductsModule)],
+    imports:[TypeOrmModule.forFeature([Cart,CartItem]),forwardRef(()=>ProductsModule),AuthModule],
     controllers:[CartController],
     providers:[CartServices],
     exports:[CartServices]

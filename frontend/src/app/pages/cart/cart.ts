@@ -8,6 +8,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Cart as CartService } from '../../service/cart';
 import { cartItemType, productType } from '../../models/product';
 import { Orders as OrderService } from '../../service/orders';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
@@ -17,7 +18,7 @@ import { Orders as OrderService } from '../../service/orders';
   styleUrl: './cart.scss',
 })
 export class Cart implements OnDestroy {
-  constructor(private productService: Products, private cartService: CartService,private orderService: OrderService){}
+  constructor(private productService: Products, private cartService: CartService,private orderService: OrderService,private toastr: ToastrService){}
   modalService = new ModalService()
 
 
@@ -34,8 +35,8 @@ export class Cart implements OnDestroy {
         this.modalService.openModal();
         this.getCartProducts()
       },
-      error: err => {
-
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     })
   }
@@ -46,6 +47,9 @@ export class Cart implements OnDestroy {
         this.cartProducts.set(data?.cartItems || []);
         this.total.set(data?.total);
         this.cartId.set(data?.id);
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     });
   }
@@ -58,6 +62,9 @@ export class Cart implements OnDestroy {
     this.cartService.incQuantity(id).subscribe({
       next: () => {
         this.getCartProducts();
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     });
   }
@@ -66,6 +73,9 @@ export class Cart implements OnDestroy {
     this.cartService.decQuantity(id).subscribe({
       next: () => {
         this.getCartProducts();
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     });
   }
@@ -74,6 +84,9 @@ export class Cart implements OnDestroy {
     this.cartService.removeFromCart(cartId).subscribe({
       next: () => {
         this.getCartProducts();
+      },
+      error: (err)=>{
+        this.toastr.error(err?.error?.message)
       }
     });
   }

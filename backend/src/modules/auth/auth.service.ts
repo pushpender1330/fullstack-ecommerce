@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/typeorm/entities/User";
 import { Repository } from "typeorm";
@@ -82,10 +82,63 @@ export class AuthServices{
 
     async getAllUser(){
         try{
-
+            const users = await this.userRepo.find();
+            return {
+                users,
+                message: 'success'
+            }
         }
         catch(err){
+            throw err
+        }
+    }
+
+    async getUserById(id: string){
+        try{
+            const user = await this.userRepo.findOne({
+                where:{
+                    id
+                }
+            });
+            return user;
+        }
+        catch(err){
+            throw err
+        }
+    }
+
+    async toggleUserRole({userId}){
+        try{
+            const user = await this.userRepo.findOne({
+                where:{
+                    id: userId
+                }
+            })
+
+
+            if(!user){
+                throw new NotFoundException('User not found');
+            }
+
+            if(user.email === 'pp@gg.in'){
+                throw new BadRequestException('you cannot change this user role');
+            }
+
+            if(user.role == 'ADMIN'){
+                user.role = 'USER';
+            }
+            else{
+                user.role = 'ADMIN'
+            }
+            await this.userRepo.save(user);
+            return {
+                message: "success",
+                user
+            }
             
+        }
+        catch(err){
+            throw err;
         }
     }
 }
