@@ -16,6 +16,9 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([authInterceptor])
     ),
     provideAnimations(), // required animations providers
-    provideToastr(), // Toastr providers
+    provideToastr({
+      closeButton: true,
+      positionClass: 'toast-bottom-right'
+    }), // Toastr providers
   ]
 };

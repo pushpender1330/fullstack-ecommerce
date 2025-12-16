@@ -2,6 +2,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -35,10 +36,10 @@ export class AuthGuard implements CanActivate {
       console.log({user,payload})
 
       if (!user || payload.role !== user.role) {
-        throw new UnauthorizedException('Token expired');
+        throw new ForbiddenException('Token expired');
       }
-    } catch {
-      throw new UnauthorizedException();
+    } catch(err) {
+      throw err;
     }
     return true;
   }
