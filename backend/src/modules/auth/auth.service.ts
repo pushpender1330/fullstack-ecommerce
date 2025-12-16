@@ -82,7 +82,19 @@ export class AuthServices{
 
     async getAllUser(){
         try{
-            const users = await this.userRepo.find();
+            const users = await this.userRepo.find({
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phoneNumber: true,
+                    role: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    address: true,
+                    password: false,
+                }
+            });
             return {
                 users,
                 message: 'success'
